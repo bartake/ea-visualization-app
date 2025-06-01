@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Architecture Visualization — E-Commerce SaaS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0c1222;
+      --bg-card: #151d32;
+      --bg-hover: #1e293b;
+      --border: #2d3a4f;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --green: #22c55e;
+      --green-light: #4ade80;
+      --blue: #3b82f6;
+      --blue-light: #60a5fa;
+      --purple: #a855f7;
+      --purple-light: #c084fc;
+      --amber: #f59e0b;
+      --amber-light: #fbbf24;
+      --cyan: #06b6d4;
+      --cyan-light: #22d3ee;
+      --rose: #f43f5e;
+      --rose-light: #fb7185;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; line-height: 1.5; }
+    .app { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+    .header {
+      text-align: center; padding: 2rem 0 2.5rem; border-bottom: 1px solid var(--border);
+    }
+    .header h1 { font-size: 1.75rem; font-weight: 700; background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+    .header .subtitle { color: var(--text-muted); font-size: 0.95rem; }
+    .header .meta { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--cyan); margin-top: 0.5rem; opacity: 0.8; }
+
+    .tabs {
+      display: flex; gap: 0.5rem; margin: 2rem 0 1.5rem; flex-wrap: wrap; justify-content: center;
+    }
+    .tab {
+      padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .tab:hover { background: var(--bg-hover); color: var(--text); border-color: var(--cyan); }
+    .tab.active { background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(168,85,247,0.2)); border-color: var(--cyan); color: var(--text); }
+    .tab i { font-size: 1rem; }
+
+    .search-bar-wrap { margin: 1.5rem 0 1rem; }
+    .search-bar-wrap .search-input-wrap, .search-bar {
+      display: flex; align-items: center; gap: 0.75rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 0 1rem;
+      transition: border-color 0.2s;
+    }
+    .search-bar-wrap .search-input-wrap:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(6,182,212,0.2); }
+    .search-bar-wrap .search-icon { color: var(--text-muted); font-size: 0.95rem; }
+    .search-bar-wrap .search-input { flex: 1; background: none; border: none; color: var(--text); font-size: 0.95rem; padding: 0.85rem 0; outline: none; }
+    .search-bar-wrap .search-input::placeholder { color: var(--text-muted); opacity: 0.8; }
+    .search-bar-wrap .search-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; }
+    .search-bar {
+      display: flex; align-items: center; gap: 0.75rem; margin: 1.5rem 0 1rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 0 1rem;
+      transition: border-color 0.2s;
+    }
+    .search-bar:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(6,182,212,0.2); }
+    .search-bar i.fa-magnifying-glass { color: var(--text-muted); font-size: 0.95rem; }
+    .search-bar input { flex: 1; background: none; border: none; color: var(--text); font-size: 0.95rem; padding: 0.85rem 0; outline: none; }
+    .search-bar input::placeholder { color: var(--text-muted); opacity: 0.8; }
+    .search-clear { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.35rem; font-size: 0.9rem; border-radius: 4px; }
+    .search-clear:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .search-result-card { margin-bottom: 1.25rem; }
+    .search-result-card .dep-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .search-result-card .dep-section .section-label { margin-bottom: 0.5rem; }
+    .search-result-card .dep-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.85rem; }
+    .search-result-card .dep-group { margin-top: 1rem; }
+    .search-result-card .dep-group:first-child { margin-top: 0; }
+    .app-hierarchy { margin-top: 1rem; }
+    .app-hierarchy-node { margin-left: 0; margin-bottom: 0.5rem; }
+    .app-hierarchy-node .app-hierarchy-children { margin-left: 1.5rem; padding-left: 1rem; border-left: 2px solid var(--border); margin-top: 0.5rem; }
+    .app-hierarchy-node .app-node-inner { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.2s; }
+    .app-hierarchy-node .app-node-inner:hover { border-color: var(--cyan); }
+    .search-result-card .dep-type-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.35rem; opacity: 0.9; }
+    .app-hierarchy { margin-top: 1rem; }
+    .app-hierarchy-node { margin-left: 1.25rem; margin-top: 0.5rem; padding-left: 1rem; border-left: 2px solid var(--border); }
+    .app-hierarchy-node .app-hierarchy-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+    .search-result-card .dep-row .dep-arrow { color: var(--text-muted); font-size: 0.75rem; }
+    .search-no-results { text-align: center; padding: 3rem 2rem; color: var(--text-muted); }
+    .app-hierarchy { margin-top: 1.5rem; }
+    .app-hierarchy-node { margin-bottom: 0.5rem; }
+    .app-hierarchy-node .node-card { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; transition: border-color 0.2s; }
+    .app-hierarchy-node .node-card:hover { border-color: var(--cyan); }
+    .app-hierarchy-node .node-card.clickable { cursor: pointer; }
+    .app-hierarchy-node .node-indent { margin-left: 1.5rem; padding-left: 1rem; border-left: 2px solid var(--border); }
+    .app-hierarchy-node .node-deps { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .app-hierarchy { margin-top: 1.5rem; }
+    .app-hierarchy-node { margin-left: 0; margin-bottom: 0.5rem; }
+    .app-hierarchy-node .app-node-card { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.35rem; transition: border-color 0.2s; }
+    .app-hierarchy-node .app-node-card:hover { border-color: var(--cyan); }
+    .app-hierarchy-node .app-node-card.clickable { cursor: pointer; }
+    .app-hierarchy-node .app-node-card .app-node-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+    .app-hierarchy-node .app-node-card .app-node-icon.foundation { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; }
+    .app-hierarchy-node .app-node-card .app-node-icon.application { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; }
+    .app-hierarchy-node .app-node-card .app-node-name { font-weight: 600; font-size: 0.95rem; }
+    .app-hierarchy-node .app-node-children { margin-left: 1.5rem; padding-left: 1rem; border-left: 2px solid var(--border); }
+    .app-hierarchy-node .app-depends-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .app-hierarchy { margin-top: 1.5rem; }
+    .app-hierarchy .section-label { margin-bottom: 1rem; }
+    .app-hierarchy-node { margin-left: 0; margin-bottom: 0.5rem; }
+    .app-hierarchy-node .app-node-card { padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); margin-bottom: 0.25rem; transition: border-color 0.2s; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; }
+    .app-hierarchy-node .app-node-card:hover { border-color: var(--cyan); }
+    .app-hierarchy-node .app-node-card.foundation { border-left: 3px solid var(--cyan); }
+    .app-hierarchy-node .app-node-card.application { border-left: 3px solid var(--blue); }
+    .app-hierarchy-children { margin-left: 1.5rem; padding-left: 1rem; border-left: 1px solid var(--border); }
+    .app-hierarchy-children .app-hierarchy-node { margin-bottom: 0.5rem; }
+    .dep-level-badge { font-size: 0.65rem; padding: 0.2rem 0.45rem; border-radius: 4px; background: rgba(6,182,212,0.2); color: var(--cyan-light); font-weight: 600; margin-left: auto; font-family: 'JetBrains Mono', monospace; }
+    .grid-card .card-header { display: flex; align-items: flex-start; }
+    .grid-card .card-header > div:last-of-type { flex: 1; }
+    .dep-level-badge { flex-shrink: 0; }
+
+    .view { display: none; animation: fadeIn 0.3s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .view-title {
+      font-size: 1.1rem; font-weight: 600; color: var(--text-muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .view-title i { color: var(--cyan); }
+
+    .grid-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; transition: border-color 0.2s;
+    }
+    .grid-card:hover { border-color: var(--cyan); }
+    .grid-card .card-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+    }
+    .grid-card .card-header .icon-wrap {
+      width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .grid-card .card-header .icon-wrap.capability { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 2px 8px rgba(34,197,94,0.4); }
+    .grid-card .card-header .icon-wrap.application { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; box-shadow: 0 2px 8px rgba(59,130,246,0.4); }
+    .grid-card .card-header .icon-wrap.data { background: linear-gradient(135deg, #a855f7, #9333ea); color: #fff; box-shadow: 0 2px 8px rgba(168,85,247,0.4); }
+    .grid-card .card-header .icon-wrap.technology { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 2px 8px rgba(245,158,11,0.4); }
+    .grid-card .card-header .icon-wrap.infrastructure { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; box-shadow: 0 2px 8px rgba(6,182,212,0.4); }
+    .grid-card .card-header h3 { font-size: 1rem; font-weight: 600; }
+    .grid-card .card-header .desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; cursor: default; transition: transform 0.15s;
+    }
+    .pill:hover { transform: scale(1.02); }
+    .pill.capability { background: rgba(34,197,94,0.15); color: var(--green-light); border: 1px solid rgba(34,197,94,0.4); }
+    .pill.capability i { color: var(--green); }
+    .pill.application { background: rgba(59,130,246,0.15); color: var(--blue-light); border: 1px solid rgba(59,130,246,0.4); }
+    .pill.application i { color: var(--blue); }
+    .pill.data { background: rgba(168,85,247,0.15); color: var(--purple-light); border: 1px solid rgba(168,85,247,0.4); }
+    .pill.data i { color: var(--purple); }
+    .pill.technology { background: rgba(245,158,11,0.15); color: var(--amber-light); border: 1px solid rgba(245,158,11,0.4); }
+    .pill.technology i { color: var(--amber); }
+    .pill.infrastructure { background: rgba(6,182,212,0.15); color: var(--cyan-light); border: 1px solid rgba(6,182,212,0.4); }
+    .pill.infrastructure i { color: var(--cyan); }
+    .pill .fa { font-size: 0.85rem; }
+    .pill.pill-sub { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+    .pill.pill-sub { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+    .pill.pill-sub { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
+    .pill-connector { color: var(--text-muted); font-size: 0.7rem; }
+    .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .foundation-badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(6,182,212,0.2); color: var(--cyan-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 0.5rem; }
+    .heading-badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(34,197,94,0.15); color: var(--green-light); font-weight: 500; margin-left: 0.5rem; }
+
+    .mapping-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .mapping-table th { text-align: left; padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+    .mapping-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+    .mapping-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .mapping-table .col-icon { width: 36px; }
+    .mapping-table .cell-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .layer-flow { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+    .layer-row {
+      display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem;
+    }
+    .layer-row .layer-label { min-width: 140px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .layer-row .layer-label.cap { color: var(--green); }
+    .layer-row .layer-label.app { color: var(--blue); }
+    .layer-row .layer-label.dat { color: var(--purple); }
+    .layer-row .layer-label.tech { color: var(--amber); }
+    .layer-row .layer-label.infra { color: var(--cyan); }
+    .layer-row .layer-content { display: flex; flex-wrap: wrap; gap: 0.5rem; flex: 1; }
+
+    .loading { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+    .loading i { font-size: 2rem; color: var(--cyan); margin-bottom: 1rem; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { background: rgba(244,63,94,0.15); border: 1px solid var(--rose); color: var(--rose-light); padding: 1rem; border-radius: 8px; margin: 2rem; }
+
+    .footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+    .footer a { color: var(--cyan); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    .pill.data.clickable { cursor: pointer; }
+    .pill.data.clickable:hover { border-color: var(--purple); box-shadow: 0 0 0 2px rgba(168,85,247,0.3); }
+
+    .application-card.clickable { cursor: pointer; }
+    .application-card.clickable:hover { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
+    .application-card.clickable { cursor: pointer; }
+    .application-card.clickable:hover { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
+      z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s;
+    }
+    .modal-overlay.visible { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; max-width: 560px; width: 90%;
+      max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .modal-header {
+      display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .modal-header .icon-wrap { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: linear-gradient(135deg, #a855f7, #9333ea); color: #fff; }
+    .modal-header h2 { font-size: 1.1rem; font-weight: 600; }
+    .modal-header .type-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(168,85,247,0.2); color: var(--purple-light); font-family: 'JetBrains Mono', monospace; }
+    .modal-close { margin-left: auto; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.25rem; padding: 0.25rem; }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 1.25rem 1.5rem; }
+    .modal-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+    .modal-props { font-size: 0.85rem; }
+    .modal-props th { text-align: left; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; }
+    .modal-props td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); }
+    .modal-props td.prop-name { font-family: 'JetBrains Mono', monospace; color: var(--cyan-light); }
+    .modal-props td.prop-type { color: var(--amber-light); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <h1>Enterprise Architecture Visualization</h1>
+      <p class="subtitle">Metadata-driven capability-to-architecture mapping</p>
+      <p class="meta" id="meta-title">—</p>
+    </div>
+
+    <div id="loading" class="loading">
+      <i class="fa-solid fa-circle-notch"></i>
+      <p>Loading architecture metadata...</p>
+    </div>
+
+    <div id="error" class="error" style="display:none;"></div>
+
+    <div id="content" style="display:none;">
+      <div class="search-bar" id="search-bar-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" id="search-input" placeholder="Search capabilities, sub-capabilities, applications, technology, infrastructure..." autocomplete="off" aria-label="Search architecture">
+        <button type="button" id="search-clear" class="search-clear" aria-label="Clear search" style="display:none;">&times;</button>
+      </div>
+      <div id="search-hint" class="search-hint" style="font-size:0.8rem;color:var(--text-muted);margin:-0.5rem 0 1rem 0;">Searches across all layers; shows top-down (uses) and top-up (used by) dependencies</div>
+      <div class="tabs">
+        <button class="tab active" data-view="capability">
+          <i class="fa-solid fa-layer-group" style="color: var(--green);"></i> Capabilities → Apps & Data
+        </button>
+        <button class="tab" data-view="application">
+          <i class="fa-solid fa-cube" style="color: var(--blue);"></i> Applications → Technology
+        </button>
+        <button class="tab" data-view="technology">
+          <i class="fa-solid fa-microchip" style="color: var(--amber);"></i> Technology → Infrastructure
+        </button>
+        <button class="tab" data-view="search" id="tab-search">
+          <i class="fa-solid fa-magnifying-glass" style="color: var(--cyan);"></i> Search Results
+        </button>
+      </div>
+
+      <div id="view-capability" class="view active">
+        <div class="view-title"><i class="fa-solid fa-sitemap"></i> Business Capabilities → Applications & Data Architecture</div>
+        <div id="capability-grid"></div>
+      </div>
+
+      <div id="view-application" class="view">
+        <div class="view-title"><i class="fa-solid fa-diagram-project"></i> Applications → Technology Stack</div>
+        <div id="application-grid"></div>
+      </div>
+
+      <div id="view-technology" class="view">
+        <div class="view-title"><i class="fa-solid fa-server"></i> Technology → Infrastructure</div>
+        <div id="technology-grid"></div>
+      </div>
+
+      <div id="view-search" class="view">
+        <div class="view-title"><i class="fa-solid fa-magnifying-glass"></i> Search Results <span id="search-result-count"></span></div>
+        <div id="search-results-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="application-modal" class="modal-overlay" role="dialog" aria-label="Application Detail">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="icon-wrap application" id="app-modal-icon"></div>
+        <div>
+          <h2 id="app-modal-title">—</h2>
+          <span class="type-badge" id="app-modal-subtitle">Application</span>
+        </div>
+        <button class="modal-close" onclick="closeApplicationModal()" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-desc" id="app-modal-desc"></div>
+        <div id="app-modal-capabilities-wrap">
+          <div class="section-label">Capabilities</div>
+          <div class="pill-row" id="app-modal-capabilities" style="margin-bottom:1rem;"></div>
+        </div>
+        <div class="section-label">Data Stores</div>
+        <div class="pill-row" id="app-modal-data" style="margin-bottom:1rem;"></div>
+        <div class="section-label">Technology Stack</div>
+        <table class="modal-props" id="app-modal-tech-table">
+          <thead><tr><th>Technology</th><th>Type</th><th>Infrastructure</th></tr></thead>
+          <tbody id="app-modal-tech-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="data-modal" class="modal-overlay" role="dialog" aria-label="Data Architecture Detail">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="icon-wrap" id="modal-icon"></div>
+        <div>
+          <h2 id="modal-title"></h2>
+          <span class="type-badge" id="modal-type"></span>
+        </div>
+        <button class="modal-close" onclick="closeDataModal()" aria-label="Close"><i class="fa-solid fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="section-label">Properties</div>
+        <table class="modal-props" id="modal-props">
+          <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody id="modal-props-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Enterprise Architecture Visualization • Metadata-driven • Edit <code>data/metadata.json</code> to customize</p>
+    <p style="margin-top:0.5rem;"><a href="https://github.com" target="_blank" rel="noopener">View on GitHub</a></p>
+  </div>
+
+  <script>
+    let metadata = null;
+    const lookup = { capability: {}, application: {}, data: {}, technology: {}, infrastructure: {} };
+
+    function byId(id) { return document.getElementById(id); }
+    function lookupInit() {
+      if (!metadata) return;
+      metadata.businessCapabilities?.forEach(c => { lookup.capability[c.id] = c; });
+      metadata.applications?.forEach(a => { lookup.application[a.id] = a; });
+      metadata.foundationServices?.forEach(a => { lookup.application[a.id] = a; });
+      metadata.dataArchitecture?.forEach(d => { lookup.data[d.id] = d; });
+      metadata.technologies?.forEach(t => { lookup.technology[t.id] = t; });
+      metadata.infrastructure?.forEach(i => { lookup.infrastructure[i.id] = i; });
+    }
+    function icon(iconName, fallback = 'fa-circle') {
+      if (!iconName) return `<i class="fa-solid ${fallback}"></i>`;
+      if (iconName.startsWith('fa-brands')) return `<i class="${iconName}"></i>`;
+      return `<i class="fa-solid ${iconName}"></i>`;
+    }
+
+    function renderCapabilityView() {
+      const cap = metadata.businessCapabilities;
+      const apps = metadata.applications;
+      const container = byId('capability-grid');
+      container.innerHTML = '';
+
+      cap.forEach(c => {
+        const appList = apps.filter(a => a.capabilityIds?.includes(c.id));
+        const dataIds = new Set();
+        appList.forEach(a => (a.dataIds || []).forEach(d => dataIds.add(d)));
+        const dataItems = [...dataIds].map(id => lookup.data[id]).filter(Boolean);
+
+        const card = document.createElement('div');
+        card.className = 'grid-card';
+        const subCaps = c.subCapabilities || [];
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="icon-wrap capability">${icon(c.icon, 'fa-lightbulb')}</div>
+            <div>
+              <h3>${c.name}</h3>
+              <div class="desc">${c.description || ''}</div>
+            </div>
+          </div>
+          ${subCaps.length ? `
+          <div class="section-label">Sub-capabilities</div>
+          <div class="pill-row pill-row-sub" style="margin-bottom:1rem;">
+            ${subCaps.map(s => `<span class="pill capability pill-sub" title="${s.name}">${s.name}</span>`).join('')}
+          </div>
+          ` : ''}
+          <div class="section-label">Applications</div>
+          <div class="pill-row" style="margin-bottom:1rem;">
+            ${appList.length ? appList.map(a => `
+              <span class="pill application" title="${a.name}">${icon(a.icon)} ${a.name}</span>
+            `).join('') : '<span class="pill" style="opacity:0.6;">—</span>'}
+          </div>
+          <div class="section-label">Data Architecture</div>
+          <div class="pill-row">
+            ${dataItems.length ? dataItems.map(d => `
+              <span class="pill data clickable" data-data-id="${d.id}" title="Click for details">${icon(d.icon)} ${d.name}</span>
+            `).join('') : '<span class="pill" style="opacity:0.6;">—</span>'}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderAppCard(a, isFoundation) {
+      const techIds = a.technologyIds || [];
+      const techItems = techIds.map(id => lookup.technology[id]).filter(Boolean);
+      const desc = isFoundation
+        ? (a.description || 'Foundation service used by applications')
+        : `Capabilities: ${(a.capabilityIds || []).map(id => lookup.capability[id]?.name || id).join(', ') || '—'} · Click for details`;
+      return `
+        <div class="grid-card application-card clickable" data-application-id="${a.id}">
+          <div class="card-header">
+            <div class="icon-wrap ${isFoundation ? 'infrastructure' : 'application'}">${icon(a.icon, 'fa-cube')}</div>
+            <div>
+              <h3>${a.name}${isFoundation ? ' <span class="foundation-badge">Foundation</span>' : ''}</h3>
+              <div class="desc">${desc}</div>
+            </div>
+          </div>
+          <div class="section-label">Technology Stack</div>
+          <div class="pill-row">
+            ${techItems.length ? techItems.map(t => `
+              <span class="pill technology" title="${t.name}">${icon(t.icon)} ${t.name}</span>
+            `).join('') : '<span class="pill" style="opacity:0.6;">—</span>'}
+          </div>
+        </div>
+      `;
+    }
+    function getAppById(id) {
+      return lookup.application[id] || null;
+    }
+    function getAppDependencyLevel(app, visited) {
+      const depIds = app.dependsOnIds || [];
+      if (!depIds.length) return 0;
+      visited = visited || new Set();
+      if (visited.has(app.id)) return 0;
+      visited.add(app.id);
+      let max = 0;
+      depIds.forEach(id => {
+        const dep = getAppById(id);
+        if (dep) max = Math.max(max, 1 + getAppDependencyLevel(dep, visited));
+      });
+      visited.delete(app.id);
+      return max;
+    }
+    function renderApplicationView() {
+      const container = byId('application-grid');
+      container.innerHTML = '';
+
+      const foundations = metadata.foundationServices || [];
+      const apps = metadata.applications || [];
+      if (foundations.length) {
+        const section = document.createElement('div');
+        section.innerHTML = `<div class="section-label" style="margin-bottom:1rem;"><i class="fa-solid fa-layer-group"></i> Foundation Services (used by application layer)</div>`;
+        container.appendChild(section);
+        foundations.forEach(a => {
+          const card = document.createElement('div');
+          card.innerHTML = renderAppCard(a, true);
+          container.appendChild(card.firstElementChild);
+        });
+      }
+      if (apps.length) {
+        const section = document.createElement('div');
+        section.innerHTML = `<div class="section-label" style="margin:1.5rem 0 1rem;"><i class="fa-solid fa-sitemap"></i> Application Dependency Hierarchy</div>
+        <p class="section-desc" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Applications ordered by dependency depth. Indented items depend on those above.</p>`;
+        container.appendChild(section);
+        const sortedApps = [...apps].sort((a, b) => getAppDependencyLevel(a) - getAppDependencyLevel(b));
+        sortedApps.forEach(a => {
+          const level = getAppDependencyLevel(a);
+          const depIds = a.dependsOnIds || [];
+          const depApps = depIds.map(id => getAppById(id)).filter(Boolean);
+          const card = document.createElement('div');
+          card.className = 'grid-card application-card clickable app-hierarchy-node';
+          card.style.marginLeft = (level * 1.5) + 'rem';
+          card.dataset.applicationId = a.id;
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="icon-wrap application">${icon(a.icon, 'fa-cube')}</div>
+              <div>
+                <h3>${a.name}</h3>
+                <div class="desc">Capabilities: ${(a.capabilityIds || []).map(id => lookup.capability[id]?.name || id).join(', ') || '—'}</div>
+              </div>
+              ${level > 0 ? `<span class="dep-level-badge" title="Dependency level">L${level}</span>` : ''}
+            </div>
+            ${depApps.length ? `
+            <div class="app-depends-on" style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);">
+              <div class="section-label"><i class="fa-solid fa-arrow-down"></i> Depends on</div>
+              <div class="pill-row">
+                ${depApps.map(d => `
+                  <span class="pill application clickable" data-application-id="${d.id}" title="${d.name}">${icon(d.icon)} ${d.name}</span>
+                `).join('')}
+              </div>
+            </div>
+            ` : ''}
+            <div class="section-label" style="margin-top:0.75rem;">Technology Stack</div>
+            <div class="pill-row">
+              ${(a.technologyIds || []).map(id => lookup.technology[id]).filter(Boolean).map(t => `
+                <span class="pill technology" title="${t.name}">${icon(t.icon)} ${t.name}</span>
+              `).join('') || '<span class="pill" style="opacity:0.6;">—</span>'}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+    }
+
+    function matchQuery(str, q) {
+      if (!str || !q) return false;
+      return str.toLowerCase().includes(q.toLowerCase());
+    }
+    function performSearch(q) {
+      const query = (q || '').trim();
+      if (!query || query.length < 2) return [];
+      const results = [];
+      metadata.businessCapabilities?.forEach(c => {
+        if (matchQuery(c.name, query) || matchQuery(c.description, query)) {
+          results.push({ type: 'capability', item: c, label: c.name });
+        }
+        (c.subCapabilities || []).forEach(s => {
+          if (matchQuery(s.name, query)) results.push({ type: 'subCapability', item: s, parent: c, label: `${c.name} › ${s.name}` });
+        });
+      });
+      const allApps = [...(metadata.foundationServices || []), ...(metadata.applications || [])];
+      allApps.forEach(a => {
+        if (matchQuery(a.name, query) || matchQuery(a.description, query)) {
+          results.push({ type: 'application', item: a, label: a.name });
+        }
+      });
+      metadata.technologies?.forEach(t => {
+        if (matchQuery(t.name, query) || matchQuery(t.description, query)) {
+          results.push({ type: 'technology', item: t, label: t.name });
+        }
+      });
+      metadata.dataArchitecture?.forEach(d => {
+        if (matchQuery(d.name, query) || matchQuery(d.description, query)) {
+          results.push({ type: 'data', item: d, label: d.name });
+        }
+      });
+      return results;
+    }
+    function getTopDown(r) {
+      const deps = [];
+      if (r.type === 'capability' || r.type === 'subCapability') {
+        const capId = r.type === 'capability' ? r.item.id : r.parent.id;
+        allApps().filter(a => a.capabilityIds?.includes(capId)).forEach(a => {
+          deps.push({ type: 'application', item: a, label: a.name });
+          (a.dataIds || []).forEach(id => { const d = lookup.data[id]; if (d && !deps.some(x => x.type === 'data' && x.item.id === d.id)) deps.push({ type: 'data', item: d, label: d.name }); });
+          (a.technologyIds || []).forEach(id => { const t = lookup.technology[id]; if (t) { deps.push({ type: 'technology', item: t, label: t.name }); (t.infrastructureIds || []).forEach(iid => { const i = lookup.infrastructure[iid]; if (i && !deps.some(x => x.type === 'infrastructure' && x.item.id === i.id)) deps.push({ type: 'infrastructure', item: i, label: i.name }); }); } });
+        });
+      } else if (r.type === 'application') {
+        (r.item.dataIds || []).forEach(id => { const d = lookup.data[id]; if (d) deps.push({ type: 'data', item: d, label: d.name }); });
+        (r.item.technologyIds || []).forEach(id => { const t = lookup.technology[id]; if (t) { deps.push({ type: 'technology', item: t, label: t.name }); (t.infrastructureIds || []).forEach(iid => { const i = lookup.infrastructure[iid]; if (i) deps.push({ type: 'infrastructure', item: i, label: i.name }); }); } });
+      } else if (r.type === 'technology') {
+        (r.item.infrastructureIds || []).forEach(id => { const i = lookup.infrastructure[id]; if (i) deps.push({ type: 'infrastructure', item: i, label: i.name }); });
+      }
+      return deps;
+    }
+    function getTopUp(r) {
+      const deps = [];
+      if (r.type === 'application') {
+        (r.item.capabilityIds || []).forEach(id => { const c = lookup.capability[id]; if (c) deps.push({ type: 'capability', item: c, label: c.name }); });
+      } else if (r.type === 'technology') {
+        allApps().filter(a => (a.technologyIds || []).includes(r.item.id)).forEach(a => deps.push({ type: 'application', item: a, label: a.name }));
+      } else if (r.type === 'infrastructure') {
+        Object.values(lookup.technology).filter(t => (t.infrastructureIds || []).includes(r.item.id)).forEach(t => deps.push({ type: 'technology', item: t, label: t.name }));
+      } else if (r.type === 'data') {
+        allApps().filter(a => (a.dataIds || []).includes(r.item.id)).forEach(a => deps.push({ type: 'application', item: a, label: a.name }));
+      } else if (r.type === 'subCapability') {
+        deps.push({ type: 'capability', item: r.parent, label: r.parent.name });
+      }
+      return deps;
+    }
+    function allApps() {
+      return [...(metadata.foundationServices || []), ...(metadata.applications || [])];
+    }
+    function pillForDep(d, clickable) {
+      const cls = `pill ${d.type === 'application' ? 'application' : d.type === 'capability' || d.type === 'subCapability' ? 'capability' : d.type === 'data' ? 'data' : d.type === 'technology' ? 'technology' : 'infrastructure'}`;
+      const extra = clickable && (d.type === 'data' || d.type === 'application') ? ' clickable' : '';
+      const dataAttr = d.type === 'data' ? ` data-data-id="${d.item.id}"` : d.type === 'application' ? ` data-application-id="${d.item.id}"` : '';
+      return `<span class="${cls}${extra}"${dataAttr} title="${d.label}">${d.type === 'capability' || d.type === 'subCapability' ? icon(lookup.capability[d.item.id]?.icon || d.parent?.icon) : d.type === 'data' ? icon(d.item.icon) : d.type === 'application' ? icon(d.item.icon) : d.type === 'technology' ? icon(d.item.icon) : icon(d.item.icon)} ${d.label}</span>`;
+    }
+    const DEP_TYPE_ORDER = ['capability', 'application', 'data', 'technology', 'infrastructure'];
+    const DEP_TYPE_LABELS = { capability: 'Capabilities', application: 'Applications', data: 'Data', technology: 'Technology', infrastructure: 'Infrastructure' };
+    function renderGroupedDeps(deps) {
+      const byType = {};
+      deps.forEach(d => { if (!byType[d.type]) byType[d.type] = []; byType[d.type].push(d); });
+      return DEP_TYPE_ORDER.filter(t => byType[t]?.length).map(t => {
+        const deduped = [...new Map(byType[t].map(d => [d.item.id, d])).values()];
+        return `<div class="dep-group"><div class="section-label dep-type-label">${DEP_TYPE_LABELS[t]}</div><div class="pill-row">${deduped.map(d => pillForDep(d, true)).join('')}</div></div>`;
+      }).join('');
+    }
+    function renderSearchResults(results, query) {
+      const container = byId('search-results-grid');
+      const q = (query || '').trim();
+      byId('search-result-count').textContent = results.length ? `(${results.length} match${results.length !== 1 ? 'es' : ''})` : '';
+      if (!results.length) {
+        const msg = q.length < 2 ? 'Enter 2+ characters to search across capabilities, sub-capabilities, applications, technology, infrastructure, and data' : 'No matches found';
+        container.innerHTML = `<div class="search-no-results"><i class="fa-solid fa-magnifying-glass" style="font-size:2rem;margin-bottom:0.5rem;opacity:0.5;"></i><p>${msg}</p></div>`;
+        return;
+      }
+      container.innerHTML = '';
+      const seen = new Set();
+      results.forEach(r => {
+        const key = `${r.type}:${r.type === 'capability' || r.type === 'subCapability' ? r.item.id : r.item.id}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        const topDown = getTopDown(r);
+        const topUp = getTopUp(r);
+        const card = document.createElement('div');
+        card.className = 'grid-card search-result-card';
+        const typeLabel = r.type === 'subCapability' ? 'Sub-capability' : r.type.charAt(0).toUpperCase() + r.type.slice(1);
+        const iconCls = r.type === 'capability' || r.type === 'subCapability' ? 'capability' : r.type === 'application' ? 'application' : r.type === 'data' ? 'data' : r.type === 'technology' ? 'technology' : 'infrastructure';
+        const itemIcon = r.type === 'capability' || r.type === 'subCapability' ? (r.parent?.icon || r.item.icon) : r.item.icon;
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="icon-wrap ${iconCls}">${icon(itemIcon, 'fa-circle')}</div>
+            <div>
+              <h3>${r.label}</h3>
+              <span class="type-badge" style="font-size:0.7rem;background:rgba(0,0,0,0.3);padding:0.15rem 0.4rem;border-radius:4px;">${typeLabel}</span>
+            </div>
+          </div>
+          ${topDown.length ? `
+          <div class="dep-section">
+            <div class="section-label"><i class="fa-solid fa-arrow-down"></i> Top-down (uses)</div>
+            ${renderGroupedDeps(topDown)}
+          </div>
+          ` : ''}
+          ${topUp.length ? `
+          <div class="dep-section">
+            <div class="section-label"><i class="fa-solid fa-arrow-up"></i> Top-up (used by)</div>
+            ${renderGroupedDeps(topUp)}
+          </div>
+          ` : ''}
+          ${!topDown.length && !topUp.length ? '<div class="dep-section"><div class="section-label">No dependencies</div></div>' : ''}
+        `;
+        container.appendChild(card);
+      });
+    }
+    function initSearch() {
+      const input = byId('search-input');
+      const clearBtn = byId('search-clear');
+      let debounce = null;
+      function runSearch() {
+        const q = input.value.trim();
+        clearBtn.style.display = q ? 'block' : 'none';
+        const results = performSearch(q);
+        renderSearchResults(results, q);
+        if (q.length >= 2) {
+          document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+          byId('tab-search').classList.add('active');
+          byId('view-search').classList.add('active');
+        }
+      }
+      input.addEventListener('input', () => {
+        clearTimeout(debounce);
+        debounce = setTimeout(runSearch, 200);
+      });
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') { clearTimeout(debounce); runSearch(); } });
+      clearBtn.addEventListener('click', () => { input.value = ''; runSearch(); clearBtn.style.display = 'none'; document.querySelector('.tab[data-view="capability"]').click(); });
+      document.querySelector('.tab[data-view="search"]').addEventListener('click', () => runSearch());
+    }
+
+    function renderTechnologyView() {
+      const techs = metadata.technologies;
+      const container = byId('technology-grid');
+      container.innerHTML = '';
+
+      techs.forEach(t => {
+        const infraIds = t.infrastructureIds || [];
+        const infraItems = infraIds.map(id => lookup.infrastructure[id]).filter(Boolean);
+
+        const card = document.createElement('div');
+        card.className = 'grid-card';
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="icon-wrap technology">${icon(t.icon, 'fa-microchip')}</div>
+            <div>
+              <h3>${t.name}</h3>
+            </div>
+          </div>
+          <div class="section-label">Infrastructure</div>
+          <div class="pill-row">
+            ${infraItems.length ? infraItems.map(i => `
+              <span class="pill infrastructure" title="${i.description || ''}">${icon(i.icon)} ${i.name}</span>
+            `).join('') : '<span class="pill" style="opacity:0.6;">—</span>'}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function initTabs() {
+      document.querySelectorAll('.tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+          btn.classList.add('active');
+          byId('view-' + btn.dataset.view).classList.add('active');
+        });
+      });
+    }
+
+    function showDataModal(dataId) {
+      const d = lookup.data[dataId];
+      if (!d) return;
+      byId('modal-icon').innerHTML = icon(d.icon, 'fa-database');
+      byId('modal-title').textContent = d.name;
+      byId('modal-type').textContent = d.type || 'Data';
+      byId('modal-desc').textContent = d.description || '';
+      const props = d.properties || [];
+      byId('modal-props-body').innerHTML = props.map(p => `
+        <tr><td class="prop-name">${p.name}</td><td class="prop-type">${p.type}</td><td>${p.description || '—'}</td></tr>
+      `).join('') || '<tr><td colspan="3" style="color:var(--text-muted);">No properties defined</td></tr>';
+      byId('data-modal').classList.add('visible');
+      byId('data-modal').addEventListener('click', closeOnOverlay);
+      document.addEventListener('keydown', closeOnEscape);
+    }
+    function closeDataModal() {
+      byId('data-modal').classList.remove('visible');
+      byId('data-modal').removeEventListener('click', closeOnOverlay);
+      document.removeEventListener('keydown', closeOnEscape);
+    }
+    function closeOnOverlay(e) { if (e.target === byId('data-modal')) closeDataModal(); }
+    function closeOnEscape(e) { if (e.key === 'Escape') closeDataModal(); }
+
+    function showApplicationModal(appId) {
+      const a = lookup.application[appId];
+      if (!a) return;
+      const isFoundation = !(a.capabilityIds?.length);
+      byId('app-modal-icon').className = 'icon-wrap ' + (isFoundation ? 'infrastructure' : 'application');
+      byId('app-modal-icon').innerHTML = icon(a.icon, 'fa-cube');
+      byId('app-modal-title').textContent = a.name;
+      byId('app-modal-subtitle').textContent = isFoundation ? 'Foundation Service' : 'Application';
+      byId('app-modal-desc').textContent = a.description || '';
+      const capIds = a.capabilityIds || [];
+      const capPills = capIds.map(id => lookup.capability[id]).filter(Boolean)
+        .map(c => `<span class="pill capability">${icon(c.icon)} ${c.name}</span>`).join('');
+      byId('app-modal-capabilities').innerHTML = capPills || '<span class="pill" style="opacity:0.6;">—</span>';
+      byId('app-modal-capabilities-wrap').style.display = capIds.length ? 'block' : 'none';
+      const dataIds = a.dataIds || [];
+      const dataPills = dataIds.map(id => lookup.data[id]).filter(Boolean)
+        .map(d => `<span class="pill data">${icon(d.icon)} ${d.name}</span>`).join('');
+      byId('app-modal-data').innerHTML = dataPills || '<span class="pill" style="opacity:0.6;">—</span>';
+      const techIds = a.technologyIds || [];
+      const techRows = techIds.map(id => lookup.technology[id]).filter(Boolean)
+        .map(t => {
+          const infraNames = (t.infrastructureIds || []).map(iid => lookup.infrastructure[iid]?.name || iid).join(', ');
+          return `<tr><td class="prop-name">${icon(t.icon)} ${t.name}</td><td class="prop-type">${t.type || '—'}</td><td>${infraNames || '—'}</td></tr>`;
+        }).join('');
+      byId('app-modal-tech-body').innerHTML = techRows || '<tr><td colspan="3" style="color:var(--text-muted);">No technologies defined</td></tr>';
+      byId('application-modal').classList.add('visible');
+      byId('application-modal').addEventListener('click', closeAppModalOverlay);
+      document.addEventListener('keydown', closeAppModalEscape);
+    }
+    function closeApplicationModal() {
+      byId('application-modal').classList.remove('visible');
+      byId('application-modal').removeEventListener('click', closeAppModalOverlay);
+      document.removeEventListener('keydown', closeAppModalEscape);
+    }
+    function closeAppModalOverlay(e) { if (e.target === byId('application-modal')) closeApplicationModal(); }
+    function closeAppModalEscape(e) { if (e.key === 'Escape') closeApplicationModal(); }
+
+    function initDataClicks() {
+      document.addEventListener('click', (e) => {
+        const pill = e.target.closest('.pill.data.clickable');
+        if (pill?.dataset?.dataId) showDataModal(pill.dataset.dataId);
+      });
+    }
+    function initApplicationClicks() {
+      document.addEventListener('click', (e) => {
+        const card = e.target.closest('.application-card');
+        const pill = e.target.closest('.pill.application[data-application-id]');
+        const target = card || pill;
+        if (target?.dataset?.applicationId) showApplicationModal(target.dataset.applicationId);
+      });
+    }
+
+    async function loadMetadata() {
+      try {
+        const res = await fetch('data/metadata.json');
+        if (!res.ok) throw new Error(res.statusText);
+        metadata = await res.json();
+        lookupInit();
+        byId('loading').style.display = 'none';
+        byId('content').style.display = 'block';
+        const metaTitle = metadata.meta?.title || 'E-Commerce SaaS';
+        const lastUpdated = metadata.meta?.lastUpdated;
+        const fmtDate = lastUpdated ? (d => { const [y,m,day]=d.split('-'); const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m,10)-1]; return `${mo} ${parseInt(day,10)}, ${y}`; })(lastUpdated) : '';
+        byId('meta-title').textContent = fmtDate ? `${metaTitle} · Last updated ${fmtDate}` : metaTitle;
+        renderCapabilityView();
+        renderApplicationView();
+        renderTechnologyView();
+        initTabs();
+        initSearch();
+        initDataClicks();
+        initApplicationClicks();
+      } catch (e) {
+        byId('loading').style.display = 'none';
+        byId('error').style.display = 'block';
+        byId('error').innerHTML = `<strong>Failed to load metadata:</strong> ${e.message}. Run a local server (e.g. <code>npx serve .</code>) to avoid CORS.`;
+      }
+    }
+
+    loadMetadata();
+  </script>
+</body>
+</html>

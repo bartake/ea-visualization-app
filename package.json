@@ -1,0 +1,13 @@
+{
+  "name": "ea-visualization-app",
+  "version": "1.0.0",
+  "description": "Enterprise Architecture Visualization — metadata-driven capability-to-architecture mapping",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "serve": "npx serve . -l 3000"
+  },
+  "keywords": ["enterprise-architecture", "visualization", "metadata", "capability-mapping"],
+  "author": "",
+  "license": "MIT"
+}

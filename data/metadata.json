@@ -1,0 +1,417 @@
+{
+  "meta": {
+    "title": "E-Commerce SaaS — Enterprise Architecture",
+    "description": "Comprehensive capability-to-architecture mapping",
+    "version": "1.0",
+    "lastUpdated": "2026-02-15"
+  },
+  "businessCapabilities": [
+    { "id": "storefronts", "name": "Storefronts", "description": "Multi-tenant storefronts, themes, headless storefront APIs", "icon": "fa-store", "subCapabilities": [
+      { "id": "store-multi-tenant", "name": "Multi-tenant Storefronts" }, { "id": "store-theme", "name": "Theme Management" }, { "id": "store-headless", "name": "Headless Storefront APIs" }, { "id": "store-browsing", "name": "Product Browsing" }, { "id": "store-category-nav", "name": "Category Navigation" }, { "id": "store-content", "name": "Storefront Content" }, { "id": "store-localization", "name": "Localization" }, { "id": "store-responsive", "name": "Responsive Design" }, { "id": "store-analytics", "name": "Storefront Analytics" }, { "id": "store-ab-test", "name": "A/B Testing" }, { "id": "store-tenant-config", "name": "Tenant Configuration" }
+    ]},
+    { "id": "apis", "name": "Commerce APIs", "description": "REST/GraphQL APIs for catalog, cart, checkout, orders", "icon": "fa-plug", "subCapabilities": [
+      { "id": "api-rest", "name": "REST APIs" }, { "id": "api-graphql", "name": "GraphQL APIs" }, { "id": "api-catalog", "name": "Catalog APIs" }, { "id": "api-cart", "name": "Cart APIs" }, { "id": "api-checkout", "name": "Checkout APIs" }, { "id": "api-orders", "name": "Order APIs" }, { "id": "api-search", "name": "Search APIs" }, { "id": "api-auth", "name": "API Authentication" }, { "id": "api-rate-limit", "name": "Rate Limiting" }, { "id": "api-versioning", "name": "API Versioning" }, { "id": "api-docs", "name": "API Documentation" }
+    ]},
+    { "id": "catalog", "name": "Product Catalog", "description": "PIM, product attributes, SKUs, categories, search", "icon": "fa-boxes-stacked", "subCapabilities": [
+      { "id": "cat-pim", "name": "Product Information Management" }, { "id": "cat-attributes", "name": "Product Attributes" }, { "id": "cat-sku", "name": "SKU Management" }, { "id": "cat-category", "name": "Category Hierarchy" }, { "id": "cat-search", "name": "Product Search" }, { "id": "cat-facets", "name": "Faceted Navigation" }, { "id": "cat-variants", "name": "Product Variants" }, { "id": "cat-relationships", "name": "Product Relationships" }, { "id": "cat-assets", "name": "Digital Assets" }, { "id": "cat-import", "name": "Product Import/Export" }, { "id": "cat-syndication", "name": "Catalog Syndication" }
+    ]},
+    { "id": "merchandising", "name": "Merchandising", "description": "Promotions, bundles, recommendations, personalization", "icon": "fa-tags", "subCapabilities": [
+      { "id": "merc-promo", "name": "Promotional Pricing" }, { "id": "merc-bundles", "name": "Product Bundles" }, { "id": "merc-recs", "name": "Product Recommendations" }, { "id": "merc-personal", "name": "Personalization" }, { "id": "merc-rules", "name": "Merchandising Rules" }, { "id": "merc-assortment", "name": "Assortment Management" }, { "id": "merc-category", "name": "Category Merchandising" }, { "id": "merc-search", "name": "Search Merchandising" }, { "id": "merc-segmentation", "name": "Customer Segmentation" }, { "id": "merc-campaign", "name": "Campaign Management" }, { "id": "merc-slot", "name": "Content Slot Management" }
+    ]},
+    { "id": "pricing", "name": "Pricing", "description": "Price lists, promotions, tax, B2B pricing", "icon": "fa-tag", "subCapabilities": [
+      { "id": "price-lists", "name": "Price Lists" }, { "id": "price-dynamic", "name": "Dynamic Pricing" }, { "id": "price-tax", "name": "Tax Calculation" }, { "id": "price-currency", "name": "Currency Handling" }, { "id": "price-volume", "name": "Volume Discounts" }, { "id": "price-b2b", "name": "B2B Pricing" }, { "id": "price-rules", "name": "Price Rules Engine" }, { "id": "price-contract", "name": "Contract Pricing" }, { "id": "price-validity", "name": "Price Validity" }, { "id": "price-optimization", "name": "Price Optimization" }, { "id": "price-competitive", "name": "Competitive Pricing" }
+    ]},
+    { "id": "checkout", "name": "Checkout", "description": "Cart, guest checkout, shipping options", "icon": "fa-cart-shopping", "subCapabilities": [
+      { "id": "chk-cart", "name": "Shopping Cart" }, { "id": "chk-guest", "name": "Guest Checkout" }, { "id": "chk-registered", "name": "Registered Checkout" }, { "id": "chk-shipping", "name": "Shipping Options" }, { "id": "chk-rate", "name": "Shipping Rate Calculation" }, { "id": "chk-address", "name": "Address Validation" }, { "id": "chk-payment-select", "name": "Payment Method Selection" }, { "id": "chk-review", "name": "Order Review" }, { "id": "chk-express", "name": "Express Checkout" }, { "id": "chk-abandonment", "name": "Cart Abandonment" }, { "id": "chk-multi-ship", "name": "Multi-Ship" }
+    ]},
+    { "id": "order-mgmt", "name": "Order Management", "description": "Order capture, status, fulfillment signals", "icon": "fa-clipboard-list", "subCapabilities": [
+      { "id": "ord-capture", "name": "Order Capture" }, { "id": "ord-status", "name": "Order Status" }, { "id": "ord-history", "name": "Order History" }, { "id": "ord-modify", "name": "Order Modification" }, { "id": "ord-cancel", "name": "Order Cancellation" }, { "id": "ord-fulfill-signal", "name": "Fulfillment Signals" }, { "id": "ord-split", "name": "Order Splitting" }, { "id": "ord-backorder", "name": "Backorder Handling" }, { "id": "ord-partial", "name": "Partial Fulfillment" }, { "id": "ord-search", "name": "Order Search" }, { "id": "ord-notify", "name": "Order Notifications" }
+    ]},
+    { "id": "fraud", "name": "Fraud & Risk", "description": "Fraud detection, velocity checks, 3DS", "icon": "fa-shield-halved", "subCapabilities": [
+      { "id": "fraud-detect", "name": "Fraud Detection" }, { "id": "fraud-velocity", "name": "Velocity Checks" }, { "id": "fraud-3ds", "name": "3DS Authentication" }, { "id": "fraud-risk", "name": "Risk Scoring" }, { "id": "fraud-avs", "name": "Address Verification" }, { "id": "fraud-device", "name": "Device Fingerprinting" }, { "id": "fraud-rules", "name": "Fraud Rule Engine" }, { "id": "fraud-chargeback", "name": "Chargeback Prevention" }, { "id": "fraud-review", "name": "Manual Review Queue" }, { "id": "fraud-analytics", "name": "Fraud Analytics" }, { "id": "fraud-monitor", "name": "Transaction Monitoring" }
+    ]},
+    { "id": "subscriptions", "name": "Subscriptions", "description": "Recurring billing, plan management", "icon": "fa-repeat", "subCapabilities": [
+      { "id": "sub-recurring", "name": "Recurring Billing" }, { "id": "sub-plans", "name": "Plan Management" }, { "id": "sub-lifecycle", "name": "Subscription Lifecycle" }, { "id": "sub-usage", "name": "Usage-Based Billing" }, { "id": "sub-trial", "name": "Trial Management" }, { "id": "sub-upgrade", "name": "Upgrade/Downgrade" }, { "id": "sub-pause", "name": "Pause/Resume" }, { "id": "sub-dunning", "name": "Dunning Management" }, { "id": "sub-analytics", "name": "Subscription Analytics" }, { "id": "sub-metered", "name": "Metered Billing" }, { "id": "sub-notify", "name": "Subscription Notifications" }
+    ]},
+    { "id": "payments", "name": "Payments", "description": "Payment processing, gateways, reconciliation", "icon": "fa-credit-card", "subCapabilities": [
+      { "id": "pay-process", "name": "Payment Processing" }, { "id": "pay-gateways", "name": "Payment Gateways" }, { "id": "pay-card", "name": "Card Payments" }, { "id": "pay-alt", "name": "Alternative Payments" }, { "id": "pay-saved", "name": "Saved Payment Methods" }, { "id": "pay-recon", "name": "Reconciliation" }, { "id": "pay-refund", "name": "Refund Processing" }, { "id": "pay-chargeback", "name": "Chargeback Handling" }, { "id": "pay-pci", "name": "PCI Compliance" }, { "id": "pay-multi-curr", "name": "Multi-Currency Payments" }, { "id": "pay-retries", "name": "Payment Retries" }
+    ]},
+    { "id": "fulfillment", "name": "Fulfillment", "description": "Warehouse, shipping, 3PL integration", "icon": "fa-truck-fast", "subCapabilities": [
+      { "id": "fulfill-warehouse", "name": "Warehouse Management" }, { "id": "fulfill-inventory", "name": "Inventory Management" }, { "id": "fulfill-shipping", "name": "Shipping & Fulfillment" }, { "id": "fulfill-3pl", "name": "3PL Integration" }, { "id": "fulfill-carrier", "name": "Carrier Integration" }, { "id": "fulfill-pick", "name": "Pick and Pack" }, { "id": "fulfill-tracking", "name": "Shipment Tracking" }, { "id": "fulfill-returns-log", "name": "Returns Logistics" }, { "id": "fulfill-dropship", "name": "Dropshipping" }, { "id": "fulfill-multi-loc", "name": "Multi-Location Fulfillment" }, { "id": "fulfill-allocation", "name": "Allocation Rules" }
+    ]},
+    { "id": "returns", "name": "Returns", "description": "RMA, return workflows, restocking", "icon": "fa-rotate-left", "subCapabilities": [
+      { "id": "ret-rma", "name": "RMA Management" }, { "id": "ret-workflows", "name": "Return Workflows" }, { "id": "ret-restock", "name": "Restocking" }, { "id": "ret-reasons", "name": "Return Reasons" }, { "id": "ret-auth", "name": "Return Authorization" }, { "id": "ret-labels", "name": "Return Shipping Labels" }, { "id": "ret-exchange", "name": "Exchange Handling" }, { "id": "ret-partial", "name": "Partial Returns" }, { "id": "ret-analytics", "name": "Return Analytics" }, { "id": "ret-policies", "name": "Return Policies" }, { "id": "ret-inspection", "name": "Return Inspection" }
+    ]},
+    { "id": "refunds", "name": "Refunds", "description": "Refund processing, chargebacks", "icon": "fa-money-bill-transfer", "subCapabilities": [
+      { "id": "refund-process", "name": "Refund Processing" }, { "id": "refund-chargeback", "name": "Chargeback Management" }, { "id": "refund-status", "name": "Refund Status" }, { "id": "refund-partial", "name": "Partial Refunds" }, { "id": "refund-reasons", "name": "Refund Reasons" }, { "id": "refund-analytics", "name": "Refund Analytics" }, { "id": "refund-dispute", "name": "Chargeback Dispute" }, { "id": "refund-policy", "name": "Refund Policy" }, { "id": "refund-notify", "name": "Refund Notifications" }, { "id": "refund-multi-gw", "name": "Multi-Gateway Refunds" }, { "id": "refund-audit", "name": "Refund Audit" }
+    ]}
+  ],
+  "foundationServices": [
+    { "id": "identity-service", "name": "Identity Service", "description": "Auth, SSO, user management. Used by storefront, checkout, payments, subscriptions.", "dataIds": ["user-profiles", "session"], "technologyIds": ["auth0"], "icon": "fa-key" },
+    { "id": "api-gateway", "name": "API Gateway", "description": "Routing, rate limiting, auth delegation. Sits in front of commerce APIs.", "dataIds": [], "technologyIds": ["kong", "redis"], "icon": "fa-route" },
+    { "id": "event-broker", "name": "Event Broker", "description": "Pub/sub, event streaming. Used by order management, fraud, fulfillment.", "dataIds": [], "technologyIds": ["kafka", "event-bus"], "icon": "fa-envelope-open-text" },
+    { "id": "cache-service", "name": "Cache Service", "description": "Distributed cache for sessions, carts, query cache.", "dataIds": ["cart", "session"], "technologyIds": ["redis"], "icon": "fa-bolt" },
+    { "id": "observability-platform", "name": "Observability Platform", "description": "Logs, metrics, traces, alerting. Used by all applications.", "dataIds": ["audit-log"], "technologyIds": ["datadog"], "icon": "fa-chart-line" }
+  ],
+  "applications": [
+    { "id": "storefront-app", "name": "Storefront Application", "capabilityIds": ["storefronts", "apis"], "dataIds": ["storefront-config", "session"], "technologyIds": ["nextjs", "cdn", "cms"], "icon": "fa-desktop", "dependsOnIds": ["identity-service", "api-gateway", "cache-service", "catalog-service", "pricing-engine"] },
+    { "id": "catalog-service", "name": "Catalog Service", "capabilityIds": ["catalog", "merchandising"], "dataIds": ["product-master", "category", "search-index"], "technologyIds": ["node-api", "elasticsearch", "postgres"], "icon": "fa-book", "dependsOnIds": ["api-gateway"] },
+    { "id": "pricing-engine", "name": "Pricing Engine", "capabilityIds": ["pricing"], "dataIds": ["price-lists", "tax-rules"], "technologyIds": ["java-service", "redis", "postgres"], "icon": "fa-calculator", "dependsOnIds": ["api-gateway", "catalog-service"] },
+    { "id": "checkout-service", "name": "Checkout Service", "capabilityIds": ["checkout", "apis"], "dataIds": ["cart", "order-draft"], "technologyIds": ["node-api", "redis", "postgres"], "icon": "fa-basket-shopping", "dependsOnIds": ["storefront-app", "catalog-service", "pricing-engine", "identity-service", "cache-service", "fraud-service"] },
+    { "id": "order-management", "name": "Order Management", "capabilityIds": ["order-mgmt"], "dataIds": ["orders", "order-lines", "shipments"], "technologyIds": ["java-service", "postgres", "event-bus"], "icon": "fa-clipboard-check", "dependsOnIds": ["checkout-service", "event-broker"] },
+    { "id": "fraud-service", "name": "Fraud & Risk Service", "capabilityIds": ["fraud"], "dataIds": ["fraud-rules", "transaction-log"], "technologyIds": ["python-ml", "redis", "kafka"], "icon": "fa-user-shield", "dependsOnIds": ["api-gateway", "event-broker"] },
+    { "id": "subscription-service", "name": "Subscription Service", "capabilityIds": ["subscriptions"], "dataIds": ["subscriptions", "plans"], "technologyIds": ["node-api", "stripe-api", "postgres"], "icon": "fa-calendar-check", "dependsOnIds": ["identity-service", "payment-gateway"] },
+    { "id": "payment-gateway", "name": "Payment Gateway", "capabilityIds": ["payments"], "dataIds": ["transactions", "reconciliation"], "technologyIds": ["adapter-layer", "stripe", "postgres"], "icon": "fa-wallet", "dependsOnIds": ["checkout-service", "order-management", "subscription-service", "refunds-service"] },
+    { "id": "fulfillment-service", "name": "Fulfillment Service", "capabilityIds": ["fulfillment"], "dataIds": ["inventory", "shipments", "warehouse"], "technologyIds": ["java-service", "wms-integration", "postgres"], "icon": "fa-warehouse", "dependsOnIds": ["order-management", "event-broker"] },
+    { "id": "returns-service", "name": "Returns Service", "capabilityIds": ["returns"], "dataIds": ["rma", "return-reasons"], "technologyIds": ["node-api", "postgres"], "icon": "fa-right-left", "dependsOnIds": ["order-management", "fulfillment-service"] },
+    { "id": "refunds-service", "name": "Refunds Service", "capabilityIds": ["refunds"], "dataIds": ["refunds", "chargebacks"], "technologyIds": ["adapter-layer", "stripe", "postgres"], "icon": "fa-receipt", "dependsOnIds": ["payment-gateway", "returns-service"] }
+  ],
+  "dataArchitecture": [
+    { "id": "product-master", "name": "Product Master", "type": "Table", "description": "Products, SKUs, attributes. Master data for catalog.", "icon": "fa-database", "properties": [
+      { "name": "product_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "sku", "type": "string", "description": "Stock keeping unit" },
+      { "name": "name", "type": "string", "description": "Product display name" },
+      { "name": "description", "type": "text", "description": "Product description" },
+      { "name": "attributes", "type": "JSONB", "description": "Dynamic product attributes" },
+      { "name": "category_id", "type": "UUID", "description": "FK to category" },
+      { "name": "status", "type": "enum", "description": "active|draft|archived" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update time" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" }
+    ]},
+    { "id": "category", "name": "Category Hierarchy", "type": "Table", "description": "Categories and taxonomy for product organization.", "icon": "fa-sitemap", "properties": [
+      { "name": "category_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "parent_id", "type": "UUID", "description": "Parent category for hierarchy" },
+      { "name": "name", "type": "string", "description": "Category display name" },
+      { "name": "slug", "type": "string", "description": "URL-friendly identifier" },
+      { "name": "path", "type": "string", "description": "Materialized path (e.g. /1/2/3)" },
+      { "name": "sort_order", "type": "integer", "description": "Display ordering" },
+      { "name": "is_visible", "type": "boolean", "description": "Visibility flag" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update time" }
+    ]},
+    { "id": "search-index", "name": "Search Index", "type": "Search Index", "description": "Elasticsearch product index for full-text search.", "icon": "fa-magnifying-glass", "properties": [
+      { "name": "id", "type": "string", "description": "Unique identifier (document ID)" },
+      { "name": "product_id", "type": "UUID", "description": "Source product reference" },
+      { "name": "title", "type": "text", "description": "Searchable product title" },
+      { "name": "description", "type": "text", "description": "Searchable description" },
+      { "name": "facets", "type": "keyword[]", "description": "Filterable attributes" },
+      { "name": "category_ids", "type": "UUID[]", "description": "Category path" },
+      { "name": "price", "type": "decimal", "description": "For price filtering" },
+      { "name": "in_stock", "type": "boolean", "description": "Availability flag" },
+      { "name": "indexed_at", "type": "timestamp", "description": "Last index time" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" }
+    ]},
+    { "id": "price-lists", "name": "Price Lists", "type": "Table", "description": "Prices by customer segment, currency, and effective dates.", "icon": "fa-list", "properties": [
+      { "name": "price_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "product_id", "type": "UUID", "description": "FK to product" },
+      { "name": "amount", "type": "decimal", "description": "Price value" },
+      { "name": "currency", "type": "string(3)", "description": "ISO currency code" },
+      { "name": "segment_id", "type": "UUID", "description": "Customer segment" },
+      { "name": "effective_from", "type": "timestamp", "description": "Price validity start" },
+      { "name": "effective_to", "type": "timestamp", "description": "Price validity end" },
+      { "name": "list_type", "type": "enum", "description": "base|promo|b2b" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "tax-rules", "name": "Tax Rules", "type": "Table", "description": "Tax configuration by jurisdiction.", "icon": "fa-percent", "properties": [
+      { "name": "rule_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "region", "type": "string", "description": "Tax region/jurisdiction" },
+      { "name": "rate", "type": "decimal", "description": "Tax rate (e.g., 0.08)" },
+      { "name": "tax_code", "type": "string", "description": "Tax code (e.g., VAT, GST)" },
+      { "name": "country_code", "type": "string(2)", "description": "ISO country" },
+      { "name": "state_code", "type": "string", "description": "State/province code" },
+      { "name": "is_default", "type": "boolean", "description": "Default rule for region" },
+      { "name": "effective_from", "type": "timestamp", "description": "Rule validity start" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "cart", "name": "Cart", "type": "Cache", "description": "Shopping cart. Ephemeral, Redis-backed.", "icon": "fa-cart-flatbed", "properties": [
+      { "name": "cart_id", "type": "string", "description": "Unique identifier (primary key)" },
+      { "name": "session_id", "type": "string", "description": "Session reference" },
+      { "name": "user_id", "type": "UUID", "description": "User ID if logged in" },
+      { "name": "items", "type": "array", "description": "Cart line items" },
+      { "name": "subtotal", "type": "decimal", "description": "Items subtotal" },
+      { "name": "currency", "type": "string(3)", "description": "Cart currency" },
+      { "name": "expires_at", "type": "timestamp", "description": "TTL for cart expiry" },
+      { "name": "created_at", "type": "timestamp", "description": "Cart creation time" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update time" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" }
+    ]},
+    { "id": "order-draft", "name": "Order Draft", "type": "Table", "description": "Draft orders before checkout completion.", "icon": "fa-file-lines", "properties": [
+      { "name": "draft_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "session_id", "type": "string", "description": "Session reference" },
+      { "name": "customer_id", "type": "UUID", "description": "Customer if logged in" },
+      { "name": "cart_snapshot", "type": "JSONB", "description": "Cart state at draft creation" },
+      { "name": "status", "type": "enum", "description": "draft|checkout|abandoned" },
+      { "name": "subtotal", "type": "decimal", "description": "Draft subtotal" },
+      { "name": "currency", "type": "string(3)", "description": "Order currency" },
+      { "name": "expires_at", "type": "timestamp", "description": "Draft expiry TTL" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "orders", "name": "Orders", "type": "Table", "description": "Order header. Committed orders post-checkout.", "icon": "fa-file-invoice", "properties": [
+      { "name": "order_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "customer_id", "type": "UUID", "description": "FK to customer" },
+      { "name": "order_number", "type": "string", "description": "Human-readable order number" },
+      { "name": "status", "type": "enum", "description": "Order lifecycle status" },
+      { "name": "subtotal", "type": "decimal", "description": "Items subtotal" },
+      { "name": "shipping_amount", "type": "decimal", "description": "Shipping cost" },
+      { "name": "tax_amount", "type": "decimal", "description": "Tax total" },
+      { "name": "total", "type": "decimal", "description": "Order total" },
+      { "name": "currency", "type": "string(3)", "description": "Order currency" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Order creation time" }
+    ]},
+    { "id": "order-lines", "name": "Order Lines", "type": "Table", "description": "Line items for each order.", "icon": "fa-grip-lines", "properties": [
+      { "name": "line_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "order_id", "type": "UUID", "description": "FK to orders" },
+      { "name": "product_id", "type": "UUID", "description": "FK to product" },
+      { "name": "sku", "type": "string", "description": "Product SKU at time of order" },
+      { "name": "quantity", "type": "integer", "description": "Ordered quantity" },
+      { "name": "unit_price", "type": "decimal", "description": "Price per unit" },
+      { "name": "line_total", "type": "decimal", "description": "Line total" },
+      { "name": "line_status", "type": "enum", "description": "fulfilled|partial|pending" },
+      { "name": "shipment_id", "type": "UUID", "description": "FK to shipment if fulfilled" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "shipments", "name": "Shipments", "type": "Table", "description": "Shipment tracking and carrier integration.", "icon": "fa-truck", "properties": [
+      { "name": "shipment_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "order_id", "type": "UUID", "description": "FK to orders" },
+      { "name": "tracking_number", "type": "string", "description": "Carrier tracking #" },
+      { "name": "carrier", "type": "string", "description": "Shipping carrier" },
+      { "name": "status", "type": "enum", "description": "pending|shipped|delivered" },
+      { "name": "shipped_at", "type": "timestamp", "description": "Ship date" },
+      { "name": "delivered_at", "type": "timestamp", "description": "Delivery date" },
+      { "name": "warehouse_id", "type": "UUID", "description": "Fulfillment origin" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "transactions", "name": "Transactions", "type": "Table", "description": "Payment transactions from gateways.", "icon": "fa-arrows-rotate", "properties": [
+      { "name": "transaction_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "order_id", "type": "UUID", "description": "FK to orders" },
+      { "name": "gateway_ref", "type": "string", "description": "External gateway ID" },
+      { "name": "amount", "type": "decimal", "description": "Transaction amount" },
+      { "name": "currency", "type": "string(3)", "description": "Transaction currency" },
+      { "name": "status", "type": "enum", "description": "pending|completed|failed|refunded" },
+      { "name": "gateway_name", "type": "string", "description": "Payment gateway" },
+      { "name": "payment_method", "type": "string", "description": "card|paypal|etc" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Transaction time" }
+    ]},
+    { "id": "inventory", "name": "Inventory", "type": "Table", "description": "Stock levels by SKU and location.", "icon": "fa-boxes-packing", "properties": [
+      { "name": "inventory_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "sku", "type": "string", "description": "Product SKU" },
+      { "name": "location_id", "type": "UUID", "description": "Warehouse/location" },
+      { "name": "quantity", "type": "integer", "description": "Available stock" },
+      { "name": "reserved_qty", "type": "integer", "description": "Reserved for orders" },
+      { "name": "reorder_point", "type": "integer", "description": "Low-stock threshold" },
+      { "name": "last_counted_at", "type": "timestamp", "description": "Last physical count" },
+      { "name": "status", "type": "enum", "description": "active|inactive" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update time" }
+    ]},
+    { "id": "subscriptions", "name": "Subscriptions", "type": "Table", "description": "Active recurring subscriptions.", "icon": "fa-clock-rotate-left", "properties": [
+      { "name": "subscription_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "customer_id", "type": "UUID", "description": "Subscriber" },
+      { "name": "plan_id", "type": "UUID", "description": "FK to plans" },
+      { "name": "status", "type": "enum", "description": "active|paused|cancelled|expired" },
+      { "name": "current_period_start", "type": "timestamp", "description": "Billing period start" },
+      { "name": "current_period_end", "type": "timestamp", "description": "Billing period end" },
+      { "name": "gateway_subscription_id", "type": "string", "description": "Stripe/subscription ID" },
+      { "name": "cancel_at_period_end", "type": "boolean", "description": "Cancel at period end flag" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Subscription creation time" }
+    ]},
+    { "id": "rma", "name": "RMA", "type": "Table", "description": "Return merchandise authorizations.", "icon": "fa-arrow-rotate-left", "properties": [
+      { "name": "rma_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "order_id", "type": "UUID", "description": "Original order" },
+      { "name": "rma_number", "type": "string", "description": "Human-readable RMA #" },
+      { "name": "status", "type": "enum", "description": "RMA workflow status" },
+      { "name": "reason_code", "type": "string", "description": "Return reason" },
+      { "name": "return_label_url", "type": "string", "description": "Prepaid label URL" },
+      { "name": "received_at", "type": "timestamp", "description": "Warehouse receipt date" },
+      { "name": "restock_completed_at", "type": "timestamp", "description": "Restock time" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "RMA creation time" }
+    ]},
+    { "id": "refunds", "name": "Refunds", "type": "Table", "description": "Refund records and processing status.", "icon": "fa-money-check", "properties": [
+      { "name": "refund_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "transaction_id", "type": "UUID", "description": "Original transaction" },
+      { "name": "order_id", "type": "UUID", "description": "FK to orders" },
+      { "name": "amount", "type": "decimal", "description": "Refund amount" },
+      { "name": "currency", "type": "string(3)", "description": "Refund currency" },
+      { "name": "status", "type": "enum", "description": "pending|completed|failed" },
+      { "name": "gateway_refund_id", "type": "string", "description": "Gateway refund reference" },
+      { "name": "reason", "type": "string", "description": "Refund reason" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Refund creation time" }
+    ]},
+    { "id": "storefront-config", "name": "Storefront Config", "type": "Document", "description": "Theme, tenant config. JSON document store.", "icon": "fa-gear", "properties": [
+      { "name": "tenant_id", "type": "string", "description": "Unique identifier (primary key)" },
+      { "name": "theme", "type": "object", "description": "Theme settings" },
+      { "name": "locale", "type": "string", "description": "Default locale" },
+      { "name": "currency", "type": "string(3)", "description": "Default currency" },
+      { "name": "timezone", "type": "string", "description": "Store timezone" },
+      { "name": "logo_url", "type": "string", "description": "Store logo URL" },
+      { "name": "favicon_url", "type": "string", "description": "Favicon URL" },
+      { "name": "meta_title", "type": "string", "description": "Default meta title" },
+      { "name": "meta_description", "type": "text", "description": "Default meta description" },
+      { "name": "checkout_config", "type": "JSONB", "description": "Checkout flow settings" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last config update" }
+    ]},
+    { "id": "session", "name": "Session", "type": "Cache", "description": "User session data. Ephemeral, Redis-backed.", "icon": "fa-user-clock", "properties": [
+      { "name": "session_id", "type": "string", "description": "Unique identifier (primary key)" },
+      { "name": "user_id", "type": "UUID", "description": "Logged-in user" },
+      { "name": "cart_id", "type": "string", "description": "Associated cart" },
+      { "name": "expires_at", "type": "timestamp", "description": "Session expiry" },
+      { "name": "ip_address", "type": "string", "description": "Client IP" },
+      { "name": "user_agent", "type": "string", "description": "Browser user agent" },
+      { "name": "last_activity_at", "type": "timestamp", "description": "Last activity time" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Session creation" },
+      { "name": "session_data", "type": "JSONB", "description": "Additional session payload" }
+    ]},
+    { "id": "fraud-rules", "name": "Fraud Rules", "type": "Table", "description": "Fraud detection rules and thresholds.", "icon": "fa-scroll", "properties": [
+      { "name": "rule_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "rule_type", "type": "string", "description": "Rule classifier" },
+      { "name": "threshold", "type": "decimal", "description": "Trigger threshold" },
+      { "name": "action", "type": "enum", "description": "block|review|allow" },
+      { "name": "priority", "type": "integer", "description": "Rule execution order" },
+      { "name": "is_active", "type": "boolean", "description": "Rule enabled flag" },
+      { "name": "description", "type": "text", "description": "Rule description" },
+      { "name": "effective_from", "type": "timestamp", "description": "Rule validity start" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "transaction-log", "name": "Transaction Log", "type": "Event Stream", "description": "Audit log for transactions. Append-only.", "icon": "fa-scroll", "properties": [
+      { "name": "event_id", "type": "string", "description": "Unique identifier (primary key)" },
+      { "name": "event_type", "type": "string", "description": "Transaction event type" },
+      { "name": "transaction_id", "type": "UUID", "description": "FK to transaction" },
+      { "name": "payload", "type": "JSON", "description": "Event payload" },
+      { "name": "timestamp", "type": "timestamp", "description": "Event time" },
+      { "name": "actor_id", "type": "UUID", "description": "User or system actor" },
+      { "name": "source", "type": "string", "description": "Event source system" },
+      { "name": "partition_key", "type": "string", "description": "Kafka partition key" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "correlation_id", "type": "UUID", "description": "Request correlation" }
+    ]},
+    { "id": "plans", "name": "Plans", "type": "Table", "description": "Subscription plan definitions.", "icon": "fa-table-list", "properties": [
+      { "name": "plan_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "name", "type": "string", "description": "Plan name" },
+      { "name": "billing_interval", "type": "string", "description": "monthly|yearly" },
+      { "name": "amount", "type": "decimal", "description": "Plan price" },
+      { "name": "currency", "type": "string(3)", "description": "Plan currency" },
+      { "name": "gateway_product_id", "type": "string", "description": "Stripe product ID" },
+      { "name": "gateway_price_id", "type": "string", "description": "Stripe price ID" },
+      { "name": "trial_days", "type": "integer", "description": "Free trial days" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "reconciliation", "name": "Reconciliation", "type": "Table", "description": "Payment reconciliation with gateways.", "icon": "fa-scale-balanced", "properties": [
+      { "name": "recon_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "gateway", "type": "string", "description": "Payment gateway" },
+      { "name": "status", "type": "enum", "description": "pending|matched|discrepancy" },
+      { "name": "period_start", "type": "timestamp", "description": "Recon period start" },
+      { "name": "period_end", "type": "timestamp", "description": "Recon period end" },
+      { "name": "gateway_total", "type": "decimal", "description": "Gateway reported total" },
+      { "name": "internal_total", "type": "decimal", "description": "Internal transaction total" },
+      { "name": "discrepancy_amount", "type": "decimal", "description": "Difference if any" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Recon creation time" }
+    ]},
+    { "id": "chargebacks", "name": "Chargebacks", "type": "Table", "description": "Chargeback records from card networks.", "icon": "fa-ban", "properties": [
+      { "name": "chargeback_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "transaction_id", "type": "UUID", "description": "Disputed transaction" },
+      { "name": "reason", "type": "string", "description": "Chargeback reason code" },
+      { "name": "amount", "type": "decimal", "description": "Chargeback amount" },
+      { "name": "currency", "type": "string(3)", "description": "Chargeback currency" },
+      { "name": "status", "type": "enum", "description": "open|disputed|lost|won" },
+      { "name": "network_ref", "type": "string", "description": "Card network reference" },
+      { "name": "received_at", "type": "timestamp", "description": "Chargeback receipt date" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation time" }
+    ]},
+    { "id": "return-reasons", "name": "Return Reasons", "type": "Table", "description": "RMA reason codes. Reference data.", "icon": "fa-list-check", "properties": [
+      { "name": "reason_code", "type": "string", "description": "Unique identifier (primary key)" },
+      { "name": "label", "type": "string", "description": "Display label" },
+      { "name": "description", "type": "text", "description": "Reason description" },
+      { "name": "requires_restock_fee", "type": "boolean", "description": "Restock fee applicable" },
+      { "name": "sort_order", "type": "integer", "description": "Display ordering" },
+      { "name": "is_active", "type": "boolean", "description": "Reason enabled" },
+      { "name": "category", "type": "string", "description": "Reason category" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update" }
+    ]},
+    { "id": "warehouse", "name": "Warehouse", "type": "Table", "description": "Warehouse and fulfillment center locations.", "icon": "fa-building", "properties": [
+      { "name": "warehouse_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "name", "type": "string", "description": "Warehouse name" },
+      { "name": "address", "type": "object", "description": "Physical address" },
+      { "name": "code", "type": "string", "description": "Warehouse code" },
+      { "name": "timezone", "type": "string", "description": "Warehouse timezone" },
+      { "name": "is_active", "type": "boolean", "description": "Active flag" },
+      { "name": "carrier_ids", "type": "UUID[]", "description": "Supported carriers" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Record creation" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update" }
+    ]},
+    { "id": "user-profiles", "name": "User Profiles", "type": "Table", "description": "Identity provider user accounts, attributes, roles.", "icon": "fa-user", "properties": [
+      { "name": "user_id", "type": "UUID", "description": "Unique identifier (primary key)" },
+      { "name": "email", "type": "string", "description": "User email" },
+      { "name": "roles", "type": "array", "description": "Assigned roles" },
+      { "name": "auth0_id", "type": "string", "description": "Auth0 subject ID" },
+      { "name": "display_name", "type": "string", "description": "Display name" },
+      { "name": "locale", "type": "string", "description": "User locale" },
+      { "name": "email_verified", "type": "boolean", "description": "Email verified flag" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "created_at", "type": "timestamp", "description": "Account creation" },
+      { "name": "updated_at", "type": "timestamp", "description": "Last update" }
+    ]},
+    { "id": "audit-log", "name": "Audit Log", "type": "Event Stream", "description": "Centralized audit trail for observability.", "icon": "fa-scroll", "properties": [
+      { "name": "event_id", "type": "string", "description": "Unique identifier (primary key)" },
+      { "name": "timestamp", "type": "timestamp", "description": "Event time" },
+      { "name": "payload", "type": "JSON", "description": "Structured log payload" },
+      { "name": "event_type", "type": "string", "description": "Event type/category" },
+      { "name": "source", "type": "string", "description": "Source service" },
+      { "name": "user_id", "type": "UUID", "description": "Actor user ID" },
+      { "name": "resource_type", "type": "string", "description": "Resource type" },
+      { "name": "resource_id", "type": "string", "description": "Resource identifier" },
+      { "name": "tenant_id", "type": "UUID", "description": "Multi-tenant isolation" },
+      { "name": "correlation_id", "type": "string", "description": "Request correlation" }
+    ]}
+  ],
+  "technologies": [
+    { "id": "nextjs", "name": "Next.js", "type": "Framework", "description": "React-based SSR/SSG framework for storefronts", "infrastructureIds": ["app-runtime"], "icon": "fa-window-maximize" },
+    { "id": "cdn", "name": "CDN", "type": "Edge", "description": "Content delivery for static assets", "infrastructureIds": ["cloudfront"], "icon": "fa-cloud-arrow-down" },
+    { "id": "cms", "name": "Headless CMS", "type": "SaaS", "description": "Content management for storefront copy", "infrastructureIds": ["external-saas"], "icon": "fa-pencil" },
+    { "id": "node-api", "name": "Node.js API", "type": "Runtime", "description": "API services for catalog, checkout, subscriptions", "infrastructureIds": ["app-runtime", "load-balancer"], "icon": "fa-code" },
+    { "id": "java-service", "name": "Java Service", "type": "Runtime", "description": "Order management, pricing engine, fulfillment", "infrastructureIds": ["app-runtime", "load-balancer"], "icon": "fa-mug-saucer" },
+    { "id": "postgres", "name": "PostgreSQL", "type": "Database", "description": "Relational storage for orders, products, transactions", "infrastructureIds": ["rds"], "icon": "fa-database" },
+    { "id": "redis", "name": "Redis", "type": "Cache", "description": "Session, cart, and cache layer", "infrastructureIds": ["elasticache"], "icon": "fa-bolt" },
+    { "id": "elasticsearch", "name": "Elasticsearch", "type": "Search", "description": "Product search and faceted navigation", "infrastructureIds": ["opensearch"], "icon": "fa-magnifying-glass" },
+    { "id": "event-bus", "name": "Event Bus", "type": "Messaging", "description": "Async order and fulfillment events", "infrastructureIds": ["msk"], "icon": "fa-envelope-open-text" },
+    { "id": "kafka", "name": "Kafka", "type": "Event Stream", "description": "Transaction log and event streaming", "infrastructureIds": ["msk"], "icon": "fa-diagram-project" },
+    { "id": "stripe", "name": "Stripe", "type": "SaaS", "description": "Payment processing and subscriptions", "infrastructureIds": ["external-saas"], "icon": "fa-brands fa-stripe" },
+    { "id": "stripe-api", "name": "Stripe API", "type": "SaaS", "description": "Stripe billing and subscription APIs", "infrastructureIds": ["external-saas"], "icon": "fa-credit-card" },
+    { "id": "wms-integration", "name": "WMS Integration", "type": "Integration", "description": "Warehouse management system connector", "infrastructureIds": ["external-saas"], "icon": "fa-truck-moving" },
+    { "id": "adapter-layer", "name": "Payment Adapter", "type": "Service", "description": "Multi-gateway payment abstraction", "infrastructureIds": ["app-runtime"], "icon": "fa-bridge" },
+    { "id": "python-ml", "name": "Python ML Service", "type": "Runtime", "description": "Fraud detection and risk scoring", "infrastructureIds": ["app-runtime", "sagemaker"], "icon": "fa-brain" },
+    { "id": "load-balancer", "name": "Load Balancer", "type": "Network", "description": "Traffic distribution across API instances", "infrastructureIds": ["alb"], "icon": "fa-scale-balanced" },
+    { "id": "auth0", "name": "Auth0", "type": "SaaS", "description": "Identity provider for SSO, MFA, user management", "infrastructureIds": ["external-saas"], "icon": "fa-shield-halved" },
+    { "id": "kong", "name": "Kong", "type": "API Gateway", "description": "API gateway for routing, rate limiting, auth delegation", "infrastructureIds": ["app-runtime", "alb"], "icon": "fa-route" },
+    { "id": "datadog", "name": "Datadog", "type": "SaaS", "description": "Logs, metrics, APM traces, alerting", "infrastructureIds": ["external-saas"], "icon": "fa-chart-line" }
+  ],
+  "infrastructure": [
+    { "id": "app-runtime", "name": "App Runtime", "description": "ECS/EKS, containers, serverless", "icon": "fa-server" },
+    { "id": "rds", "name": "RDS", "description": "Managed PostgreSQL", "icon": "fa-database" },
+    { "id": "elasticache", "name": "ElastiCache", "description": "Managed Redis", "icon": "fa-memory" },
+    { "id": "opensearch", "name": "OpenSearch", "description": "Managed Elasticsearch", "icon": "fa-magnifying-glass" },
+    { "id": "msk", "name": "MSK", "description": "Managed Kafka", "icon": "fa-envelope" },
+    { "id": "cloudfront", "name": "CloudFront", "description": "CDN", "icon": "fa-cloud" },
+    { "id": "alb", "name": "ALB", "description": "Application Load Balancer", "icon": "fa-right-left" },
+    { "id": "sagemaker", "name": "SageMaker", "description": "ML runtime", "icon": "fa-robot" },
+    { "id": "external-saas", "name": "External SaaS", "description": "Stripe, WMS, CMS providers", "icon": "fa-cloud-bolt" }
+  ]
+}
