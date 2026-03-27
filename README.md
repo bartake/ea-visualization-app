@@ -39,12 +39,28 @@ npx serve . -l 3000
 
 ```
 ea-visualization-app/
+├── css/
+│   └── styles.css       # All app styles
 ├── data/
 │   └── metadata.json    # Architecture metadata (edit this!)
-├── index.html           # Main application
+├── js/
+│   ├── main.js          # Entry point, loads metadata, wires everything
+│   ├── store.js         # Metadata + lookup state
+│   ├── utils.js         # byId, icon helpers
+│   ├── modals.js        # Data & application detail modals
+│   ├── tabs.js          # Tab switching
+│   ├── events.js        # Click handlers for pills/cards
+│   └── views/
+│       ├── capability-view.js   # Capabilities → Apps & Data
+│       ├── application-view.js  # Applications → Technology
+│       ├── technology-view.js   # Technology → Infrastructure
+│       └── search-view.js       # Search + top-down/top-up dependencies
+├── index.html           # Markup only (~90 lines)
 ├── package.json         # npm scripts
 └── README.md            # This file
 ```
+
+The app uses **ES modules** (no build step). Run with a local server (e.g. `npx serve .`) since `file://` won't load modules.
 
 ## Customizing
 
